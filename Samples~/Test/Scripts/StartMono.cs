@@ -16,6 +16,18 @@ public class StartMono : MonoBehaviour
 
     void Start()
     {
+        // 本项目对于 Newtonsoft.Json 的修改是对于 ilruntime 的扩展支持,
+        // 并没有修改 Newtonsoft.Json 在正常情况下的运行
+        //
+        // 解开这两行注释, 将以 非ilruntime 的方式运行测试代码.
+        // 在测试新的案例的时候如果报错, 
+        // 可以先看看在 非ilruntime 情况下, 即 Newtonsoft.Json 本身是否是支持这种案例写法的
+        // 如果 Newtonsoft.Json 本身不支持, 则在 ilruntime 模式下也不支持
+        //Main.Start();
+        //Debug.LogError("以非ilruntime模式运行");
+        //return;
+
+        Debug.LogError("以ilruntime模式运行");
         appdomain = new AppDomain();
 
         byte[] dll = File.ReadAllBytes("Library/ScriptAssemblies/HotScripts.dll");
