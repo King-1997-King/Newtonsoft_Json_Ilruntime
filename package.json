@@ -1,0 +1,23 @@
+{
+  "name": "com.mj.Newtonsoft.Json.Ilruntime",
+  "displayName": "Newtonsoft Json Ilruntime",
+  "version": "1.0.0",
+  "unity": "2018.1",
+  "description": "能够在ilruntime中运行的 newtonsoft json",
+  "keywords": [
+    "Json",
+    "Newtonsoft Json",
+    "ilruntime"
+  ],
+  "author": "MJ",
+  "dependencies": {
+    "com.ourpalm.ilruntime": "2.0.0"
+  },
+  "samples": [
+    {
+      "displayName": "Test",
+      "description": "测试场景",
+      "path": "Samples~/Test"
+    }
+  ]
+}
