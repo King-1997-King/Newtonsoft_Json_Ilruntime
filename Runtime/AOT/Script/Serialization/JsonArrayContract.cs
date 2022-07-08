@@ -280,17 +280,25 @@ namespace Newtonsoft.Json.Serialization
                     ? typeof(object)
                     : CollectionItemType;
 
-                if (collectionItemType is ILRuntimeType iLRuntimeType)
+                if(collectionItemType is ILRuntimeType && collectionItemType.IsEnum)
                 {
-                    collectionItemType = iLRuntimeType.UnderlyingSystemType;
+                    Type temporaryListType = typeof(List<>).MakeGenericType(typeof(int));
+                    _genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
                 }
-                else if (collectionItemType is ILRuntimeWrapperType wrapperType)
+                else
                 {
-                    collectionItemType = wrapperType.RealType;
-                }
+                    if (collectionItemType is ILRuntimeType iLRuntimeType)
+                    {
+                        collectionItemType = iLRuntimeType.UnderlyingSystemType;
+                    }
+                    else if (collectionItemType is ILRuntimeWrapperType wrapperType)
+                    {
+                        collectionItemType = wrapperType.RealType;
+                    }
 
-                Type temporaryListType = typeof(List<>).MakeGenericType(collectionItemType);
-                _genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
+                    Type temporaryListType = typeof(List<>).MakeGenericType(collectionItemType);
+                    _genericTemporaryCollectionCreator = JsonTypeReflector.ReflectionDelegateFactory.CreateDefaultConstructor<object>(temporaryListType);
+                }
             }
 
             return (IList)_genericTemporaryCollectionCreator();

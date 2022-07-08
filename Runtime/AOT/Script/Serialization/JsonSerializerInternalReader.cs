@@ -876,7 +876,17 @@ namespace Newtonsoft.Json.Serialization
                     }
                     else if (arrayContract.IsArray)
                     {
-                        Array a = Array.CreateInstance(arrayContract.CollectionItemType, list.Count);
+                        Array a = null; 
+                        
+                        if(arrayContract.CollectionItemType is ILRuntimeType && arrayContract.CollectionItemType.IsEnum)
+                        {
+                            a = Array.CreateInstance(typeof(int), list.Count);
+                        }
+                        else
+                        {
+                            a = Array.CreateInstance(arrayContract.CollectionItemType, list.Count);
+                        }
+
                         list.CopyTo(a, 0);
                         list = a;
                     }
