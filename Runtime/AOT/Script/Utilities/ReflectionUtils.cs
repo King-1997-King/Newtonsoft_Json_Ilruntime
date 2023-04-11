@@ -35,6 +35,7 @@ using System.Linq;
 using Newtonsoft.Json.Serialization;
 using Newtonsoft.Json.Shims;
 using ILRuntime.Reflection;
+using ILRuntime.CLR.Method;
 
 namespace Newtonsoft.Json.Utilities
 {
@@ -810,6 +811,18 @@ namespace Newtonsoft.Json.Utilities
                     if (targetType is ILRuntimeType iLRuntimeType) {
                         MemberInfo[] memberInfos = iLRuntimeType.GetMembers(bindingAttr);
                         for(int i=0; i < memberInfos.Length; i++)
+                        {
+                            MemberInfo mi = memberInfos[i];
+                            if (mi.Name == name && mi.MemberType() == memberTypes)
+                            {
+                                return mi;
+                            }
+                        }
+                        return null;
+                    } else if (targetType is ILRuntimeWrapperType wrapperType)
+                    {
+                        MemberInfo[] memberInfos = wrapperType.GetMembers(bindingAttr);
+                        for (int i = 0; i < memberInfos.Length; i++)
                         {
                             MemberInfo mi = memberInfos[i];
                             if (mi.Name == name && mi.MemberType() == memberTypes)
